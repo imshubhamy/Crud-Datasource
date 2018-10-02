@@ -1,4 +1,3 @@
-com\mycompany\crud\datasource\EmpDao.class
 com\mycompany\crud\datasource\UpdateServlet.class
 com\mycompany\crud\datasource\DeleteServlet.class
 com\mycompany\crud\datasource\ViewServlet.class

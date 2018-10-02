@@ -8,6 +8,9 @@ package com.mycompany.crud.datasource;
 
 import java.util.*;
 import java.sql.*;
+import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
@@ -19,10 +22,17 @@ public class EmpDao {
     
     
    public static Connection getConnection() {
-        Connection con = null;
+       
+       Connection con = null;
         
          try {
-          //dataSource.getConnection();
+             
+             
+             InitialContext ctx = new InitialContext();
+             DataSource ds = (DataSource)ctx.lookup("jdbc/__derby");
+             con = ds.getConnection();
+             
+             
         }catch(Exception e){
             System.out.println(e);
         } 
@@ -36,7 +46,7 @@ public class EmpDao {
         Connection con = EmpDao.getConnection() ;
         PreparedStatement ps;
                 ps = con.prepareStatement
-                ("insert into employee(emp_name,email,password,country) values (?,?,?,?)");
+                ("insert into Employee(emp_name,email,password,country) values (?,?,?,?)");
         ps.setString(1,e.getName());
         ps.setString(2,e.getEmail());
         ps.setString(3,e.getPassword());
@@ -56,7 +66,7 @@ public class EmpDao {
         try {
             Connection con = EmpDao.getConnection();
             PreparedStatement ps = con.prepareStatement(
-                    "update employee set emp_name=?,email=?,password=?,country=? where id=? ");
+                    "update Employee set emp_name=?,email=?,password=?,country=? where id=? ");
             ps.setString(1,e.getName());
             ps.setString(2,e.getEmail());
             ps.setString(3,e.getPassword());
@@ -75,7 +85,7 @@ public class EmpDao {
     int status=0;
     try {
         Connection con= EmpDao.getConnection();
-        PreparedStatement ps = con.prepareStatement("delete from employee where id=?");
+        PreparedStatement ps = con.prepareStatement("delete from Employee where id=?");
         ps.setInt(1,id);
         
         status = ps.executeUpdate();
@@ -92,7 +102,7 @@ public class EmpDao {
       
      try{  
             Connection con=EmpDao.getConnection();  
-            PreparedStatement ps=con.prepareStatement("select * from employee where id=?");  
+            PreparedStatement ps=con.prepareStatement("select * from Employee where id=?");  
             ps.setInt(1,id);  
             ResultSet rs=ps.executeQuery();  
             if(rs.next()){  
@@ -112,7 +122,7 @@ public class EmpDao {
           
         try{  
             Connection con=EmpDao.getConnection();  
-            PreparedStatement ps=con.prepareStatement("select * from employee");  
+            PreparedStatement ps=con.prepareStatement("select * from Employee");  
             ResultSet rs=ps.executeQuery();  
             while(rs.next()){  
                 Emp e=new Emp();  

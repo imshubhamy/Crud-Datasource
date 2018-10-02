@@ -27,7 +27,7 @@ import javax.sql.DataSource;
 @Singleton
 public class StartupService {
      
-    @Resource(lookup="java:comp/DefaultDataSource")
+    @Resource(lookup="jdbc/__derby")
     private DataSource dataSource;
  
     @PostConstruct
